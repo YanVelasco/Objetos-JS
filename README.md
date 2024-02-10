@@ -29,7 +29,7 @@ Código modelo da li "Lista de compras":
 Input com código refatorado:
 
     <div>
-        <input type="checkbox" checked class="is-clickable" />  
+        <input type="checkbox" checked class="is-clickable" />
         <span class="itens-comprados is-size-5">${elemento.valor}</span>
     </div>
 

@@ -9,6 +9,7 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   salvarItem();
   mostrarItem();
+  itensInput.focus();
 });
 
 function salvarItem() {
@@ -59,15 +60,26 @@ function mostrarItem() {
           </li>
           `;
     }
+    itensInput.value = "";
   });
 
   const inputCheck = document.querySelectorAll('input[type="checkbox"]');
 
   inputCheck.forEach((i) => {
     i.addEventListener("click", (event) => {
-      const valorDoElemento =
+      valorDoElemento =
         event.target.parentElement.parentElement.getAttribute("data-value");
       listaItens[valorDoElemento].checar = event.target.checked;
+      mostrarItem();
+    });
+  });
+
+  const deletarObjetos = document.querySelectorAll(".deletar");
+  deletarObjetos.forEach((i) => {
+    i.addEventListener("click", (event) => {
+      valorDoElemento =
+        event.target.parentElement.parentElement.getAttribute("data-value");
+      listaItens.splice(valorDoElemento, 1);
       mostrarItem();
     });
   });

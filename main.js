@@ -5,6 +5,18 @@ let form = document.getElementById("form-itens");
 const itensInput = document.querySelector("#receber-item");
 const ulItens = document.querySelector("#lista-de-itens");
 const ulItensComprados = document.querySelector("#itens-comprados");
+const listaRecuperada = localStorage.getItem('listaItens');
+
+function atualiazaLocalStorage() {
+  localStorage.setItem("listaItens", JSON.stringify(listaItens));
+}
+
+if (listaRecuperada) {
+  listaItens = JSON.parse(listaRecuperada);
+  mostrarItem();
+}else{
+  listaItens = [];
+}
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -53,17 +65,25 @@ function mostrarItem() {
             <li class="item-compra is-flex is-justify-content-space-between" data-value="${index}">
                 <div>
                     <input type="checkbox" class="is-clickable" />
-                    <input type="text" class="is-size-5" value="${elemento.item}" ${index !== Number(itemAEditar) ? 'disabled' : ''}></input>
+                    <input type="text" class="is-size-5" value="${
+                      elemento.item
+                    }" ${
+        index !== Number(itemAEditar) ? "disabled" : ""
+      }></input>
                 </div>
                 <div>
-                    ${ index === Number(itemAEditar) ? '<button onclick="salvarEdicao()"><i class="fa-regular fa-floppy-disk is-clickable"></i></button>' : '<i class="fa-regular is-clickable fa-pen-to-square editar"></i>'}
+                    ${
+                      index === Number(itemAEditar)
+                        ? '<button onclick="salvarEdicao()"><i class="fa-regular fa-floppy-disk is-clickable"></i></button>'
+                        : '<i class="fa-regular is-clickable fa-pen-to-square editar"></i>'
+                    }
                     <i class="fa-solid fa-trash is-clickable deletar"></i>
                 </div>
             </li>
 `;
-
     }
     itensInput.value = "";
+    atualiazaLocalStorage();
   });
 
   const inputCheck = document.querySelectorAll('input[type="checkbox"]');
@@ -87,7 +107,7 @@ function mostrarItem() {
     });
   });
 
-  const editarItens = document.querySelectorAll('.editar');
+  const editarItens = document.querySelectorAll(".editar");
   editarItens.forEach((i) => {
     i.addEventListener("click", (event) => {
       itemAEditar =
@@ -98,7 +118,9 @@ function mostrarItem() {
 }
 
 function salvarEdicao() {
-  const itemEditado = document.querySelector(`[data-value="${itemAEditar}"] input[type="text"]`)
+  const itemEditado = document.querySelector(
+    `[data-value="${itemAEditar}"] input[type="text"]`
+  );
   listaItens[itemAEditar].item = itemEditado.value;
   itemAEditar = -1;
   mostrarItem();
